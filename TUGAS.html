@@ -1,0 +1,2270 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak) &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'TUGAS';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak)</a></li>
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FTUGAS.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/TUGAS.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bussiness-understanding">Bussiness Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur"><strong>Penjelasan Fitur</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing">Pre-Processing</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nn">K-NN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#model-dt">Model DT</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tic-tac-toe-endgame-memprediksi-apakah-permainan-akan-dimenangkan-oleh-pemain-x-atau-tidak">
+<h1>Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak)<a class="headerlink" href="#tic-tac-toe-endgame-memprediksi-apakah-permainan-akan-dimenangkan-oleh-pemain-x-atau-tidak" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">&lt;ipython-input-1-d5df0069828e&gt;</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/google/colab/drive.py</span> in <span class="ni">mount</span><span class="nt">(mountpoint, force_remount, timeout_ms, readonly)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> <span class="k">def</span> <span class="nf">mount</span><span class="p">(</span><span class="n">mountpoint</span><span class="p">,</span> <span class="n">force_remount</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">timeout_ms</span><span class="o">=</span><span class="mi">120000</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span><span class="w">   </span><span class="sd">&quot;&quot;&quot;Mount your Google Drive at the specified mountpoint path.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">103</span>   <span class="k">return</span> <span class="n">_mount</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">104</span>       <span class="n">mountpoint</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>       <span class="n">force_remount</span><span class="o">=</span><span class="n">force_remount</span><span class="p">,</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/google/colab/drive.py</span> in <span class="ni">_mount</span><span class="nt">(mountpoint, force_remount, timeout_ms, ephemeral, readonly)</span>
+<span class="g g-Whitespace">    </span><span class="mi">130</span>   <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">131</span>   <span class="k">if</span> <span class="n">ephemeral</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">132</span>     <span class="n">_message</span><span class="o">.</span><span class="n">blocking_request</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">133</span>         <span class="s1">&#39;request_auth&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;authType&#39;</span><span class="p">:</span> <span class="s1">&#39;dfs_ephemeral&#39;</span><span class="p">},</span> <span class="n">timeout_sec</span><span class="o">=</span><span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">134</span>     <span class="p">)</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/google/colab/_message.py</span> in <span class="ni">blocking_request</span><span class="nt">(request_type, request, timeout_sec, parent)</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span>       <span class="n">request_type</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">expect_reply</span><span class="o">=</span><span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span>   <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">176</span>   <span class="k">return</span> <span class="n">read_reply_from_input</span><span class="p">(</span><span class="n">request_id</span><span class="p">,</span> <span class="n">timeout_sec</span><span class="p">)</span>
+
+<span class="nn">/usr/local/lib/python3.10/dist-packages/google/colab/_message.py</span> in <span class="ni">read_reply_from_input</span><span class="nt">(message_id, timeout_sec)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span>     <span class="n">reply</span> <span class="o">=</span> <span class="n">_read_next_input_message</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span>     <span class="k">if</span> <span class="n">reply</span> <span class="o">==</span> <span class="n">_NOT_READY</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reply</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">96</span>       <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.025</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>       <span class="k">continue</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>     <span class="k">if</span> <span class="p">(</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">drive</span><span class="o">/</span><span class="n">MyDrive</span><span class="o">/</span><span class="n">PSD</span><span class="o">/</span><span class="n">tugas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/content/drive/MyDrive/PSD/tugas
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">ExtraTreesClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="bussiness-understanding">
+<h1>Bussiness Understanding<a class="headerlink" href="#bussiness-understanding" title="Permalink to this heading">#</a></h1>
+<p><strong>TUJUAN ANALISIS DATA :</strong> Analisis data Tic-TacToe EndGame ini untuk memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
+<h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Permalink to this heading">#</a></h1>
+<p><strong>DATASET</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/jennamacwe/ProyekSainData/main/tic-tac-toe_Endgame2.csv&quot;</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Menambahkan kolom</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;top-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;top-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;top-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;Class&quot;</span><span class="p">]</span>
+<span class="c1"># Menampilkan dataset dengan kolom tambahan</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    top-left-square top-middle-square top-right-square middle-left-square  \
+0                 x                 x                x                  x   
+1                 x                 x                x                  x   
+2                 x                 x                x                  x   
+3                 x                 x                x                  x   
+4                 x                 x                x                  x   
+..              ...               ...              ...                ...   
+953               o                 x                x                  x   
+954               o                 x                o                  x   
+955               o                 x                o                  x   
+956               o                 x                o                  o   
+957               o                 o                x                  x   
+
+    middle-middle-square middle-right-square bottom-left-square  \
+0                      o                   o                  x   
+1                      o                   o                  o   
+2                      o                   o                  o   
+3                      o                   o                  o   
+4                      o                   o                  b   
+..                   ...                 ...                ...   
+953                    o                   o                  o   
+954                    x                   o                  x   
+955                    o                   x                  x   
+956                    x                   x                  x   
+957                    x                   o                  o   
+
+    bottom-middle-square bottom-right-square     Class  
+0                      o                   o  positive  
+1                      x                   o  positive  
+2                      o                   x  positive  
+3                      b                   b  positive  
+4                      o                   b  positive  
+..                   ...                 ...       ...  
+953                    x                   x  negative  
+954                    o                   x  negative  
+955                    o                   x  negative  
+956                    o                   x  negative  
+957                    x                   x  negative  
+
+[958 rows x 10 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>PENJELASAN DATASET :</strong>
+Dataset ini merupakan kumpulan lengkap konfigurasi papan di akhir permainan tic-tac-toe, di mana ‘x’ diasumsikan bermain terlebih dahulu. Konsep targetnya adalah ‘kemenangan untuk x’ (membuat ‘tiga berjejer’).</p>
+<p>Dalam permainan Tic-Tac-Toe, ada dua pemain, biasanya disebut ‘x’ dan ‘o,’ yang bergiliran menempatkan tanda mereka di papan permainan 3x3. Tujuan permainan adalah mencapai ‘win for x,’ yang berarti pemain ‘x’ harus berhasil menciptakan salah satu dari 8 kemungkinan cara untuk mencapai ‘three-in-a-row,’ yaitu menempatkan tiga tanda ‘x’ secara berurutan dalam satu baris, kolom, atau diagonal.</p>
+<p>Deskripsi tersebut mencatat bahwa Dataset ini mencakup semua konfigurasi papan pada akhir permainan Tic-Tac-Toe, dengan asumsi bahwa ‘x’ selalu bermain pertama.</p>
+<p>Ini adalah tugas klasifikasi di mana model pembelajaran mesin mencoba memprediksi hasil permainan, yaitu apakah ‘x’ akan memenangkan permainan atau tidak.</p>
+<p><strong>Tipe Data: Categorical</strong></p>
+<p><strong>Subject Area : Game</strong></p>
+<p><strong>jumlah data : 958 baris</strong></p>
+<p><strong>Dataset ini TIDAK MEMILIKI Missing Values</strong> yang berarti bahwa setiap bagian data pada dataset lengkap dengan informasi.</p>
+<section id="penjelasan-fitur">
+<h2><strong>Penjelasan Fitur</strong><a class="headerlink" href="#penjelasan-fitur" title="Permalink to this heading">#</a></h2>
+<p>Jumlah Fitur : 9 (setiap fitur mempresentasikan setiap kotak pada permainan)</p>
+<ul class="simple">
+<li><p>top-left-square : kotak pada bagian kiri baris teratas</p></li>
+<li><p>top-middle-square : kotak pada bagian tengah baris teratas</p></li>
+<li><p>top-right-square : kotak pada bagian kanan baris teratas</p></li>
+<li><p>middle-left-square : kotak pada bagian kiri baris tengah</p></li>
+<li><p>middle-middle-square : kotak pada bagian tengah baris tengah</p></li>
+<li><p>middle-right-square : kotak pada bagian kanan baris tengah</p></li>
+<li><p>bottom-left-square : kotak pada bagian kiri baris bawah</p></li>
+<li><p>bottom-middle-square : kotak pada bagian tengah baris bawah</p></li>
+<li><p>bottom-righ-square : kotak pada bagian kiri baris bawah</p></li>
+</ul>
+<p><strong>SUMBER DATASET:<br />
+<a class="reference external" href="https://archive.ics.uci.edu/dataset/101/tic+tac+toe+endgam">https://archive.ics.uci.edu/dataset/101/tic+tac+toe+endgam</a></strong></p>
+<p><strong>Eksplorasi Data</strong></p>
+<p>Menampilkan grafik jumlah per kelas (negatif dan positif) dari dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menghitung jumlah per kelas</span>
+<span class="n">class_counts</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="c1"># Plot grafik jumlah per kelas</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">class_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">class_counts</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Kelas&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Jumlah&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Jumlah Per Kelas&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/52f8236cfcde9377ce7a1fc7567c920b031eb9c45b058bde43c426bcb68261f5.png" src="_images/52f8236cfcde9377ce7a1fc7567c920b031eb9c45b058bde43c426bcb68261f5.png" />
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="pre-processing">
+<h1>Pre-Processing<a class="headerlink" href="#pre-processing" title="Permalink to this heading">#</a></h1>
+<p><strong>mengubah categorical menjadi numerik menggunakan Label Encoding</strong></p>
+<p>Label encoding adalah suatu metode dalam pra-pemrosesan data yang melibatkan penggantian nilai-nilai kategori pada suatu fitur dengan nilai-nilai numerik yang unik.</p>
+<p><strong>Mengubah categorical menjadi numerik menggunakan Label Encoding dilakukan</strong> karena sebagian besar algoritma machine learning memerlukan input yang bersifat numerik. Beberapa algoritma, terutama yang berbasis pada perhitungan jarak (seperti k-Nearest Neighbors), dapat memberikan hasil yang lebih baik jika nilai kategorikal diubah menjadi bentuk numerik. Hal ini karena perhitungan jarak lebih mudah dilakukan pada data numerik.</p>
+<p><strong>catatan</strong> : Karena fitur-fitur ini berada dalam rentang yang sangat terbatas (hanya 1, 0, dan -1), normalisasi tidak diperlukan. Normalisasi biasanya digunakan  pada data numerik yang memiliki rentang nilai yang berbeda agar fitur-fitur tersebut memiliki skala yang serupa.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Memisahkan fitur (X) dan target (y)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Class&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Class&#39;</span><span class="p">]</span>
+
+<span class="c1"># Membagi data menjadi data latih dan data uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mi">670</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">288</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mengimpor data CSV tanpa nama kolom (header)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Memberikan kolom pada dataset</span>
+<span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;top-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;top-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;top-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;middle-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-left-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-middle-square&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom-right-square&quot;</span><span class="p">,</span> <span class="s2">&quot;Class&quot;</span><span class="p">]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span>
+
+<span class="c1"># Mapping karakter ke angka (label encoding)</span>
+<span class="n">char_to_num</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melakukan encoding untuk data train</span>
+<span class="n">encoded_data_train</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Mengonversi setiap baris dalam DataFrame X_train menjadi karakter dan menyimpannya dalam encoded_data_train</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">X_train</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">encoded_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">char_to_num</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="n">encoded_data_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encoded_row</span><span class="p">)</span>
+
+<span class="c1"># Membuat DataFrame dari data train yang telah diencode</span>
+<span class="n">encoded_df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">encoded_data_train</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan DataFrame data train yang sudah diencode</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data Train yang sudah diencode:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">encoded_df_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data Train yang sudah diencode:
+     top-left-square  top-middle-square  top-right-square  middle-left-square  \
+0                  1                 -1                 1                   0   
+1                  0                  1                 0                   1   
+2                  1                 -1                 1                  -1   
+3                  1                  0                -1                   0   
+4                  1                  1                 0                   1   
+..               ...                ...               ...                 ...   
+665                1                  1                -1                   0   
+666                1                 -1                 0                  -1   
+667                0                 -1                 1                   0   
+668                0                 -1                 1                   0   
+669                1                  1                -1                   1   
+
+     middle-middle-square  middle-right-square  bottom-left-square  \
+0                       1                    0                   1   
+1                       1                    1                   0   
+2                       1                   -1                   0   
+3                       1                   -1                   0   
+4                       0                    1                   1   
+..                    ...                  ...                 ...   
+665                     1                    0                   0   
+666                     1                    0                   0   
+667                     1                   -1                   0   
+668                     1                    0                   1   
+669                     0                    0                   1   
+
+     bottom-middle-square  bottom-right-square  
+0                      -1                    0  
+1                       1                    0  
+2                       0                    0  
+3                       1                    1  
+4                       0                    0  
+..                    ...                  ...  
+665                    -1                    1  
+666                     1                    1  
+667                    -1                    1  
+668                    -1                    1  
+669                    -1                    0  
+
+[670 rows x 9 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melakukan encoding untuk data test</span>
+<span class="n">encoded_data_test</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Mengonversi setiap baris dalam DataFrame X_train menjadi karakter dan menyimpannya dalam encoded_data_train</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">X_test</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">encoded_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">char_to_num</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="n">encoded_data_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encoded_row</span><span class="p">)</span>
+
+<span class="c1"># Membuat DataFrame dari data test yang telah diencode</span>
+<span class="n">encoded_df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">encoded_data_test</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X_test</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan DataFrame data test yang sudah diencode</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data Test yang sudah diencode:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">encoded_df_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data Test yang sudah diencode:
+     top-left-square  top-middle-square  top-right-square  middle-left-square  \
+0                  0                  0                 0                  -1   
+1                  0                 -1                -1                   1   
+2                  0                  1                -1                   1   
+3                 -1                  1                 0                   1   
+4                  0                 -1                 1                   1   
+..               ...                ...               ...                 ...   
+283               -1                  1                 0                   0   
+284                0                  1                -1                   0   
+285                1                  1                 0                   1   
+286                0                  0                 1                  -1   
+287                0                  1                 1                   1   
+
+     middle-middle-square  middle-right-square  bottom-left-square  \
+0                       1                    1                   1   
+1                       1                    1                  -1   
+2                       1                   -1                   0   
+3                       1                    0                   1   
+4                       0                   -1                  -1   
+..                    ...                  ...                 ...   
+283                     1                    1                   0   
+284                     0                    1                   0   
+285                     0                   -1                   0   
+286                    -1                    1                   0   
+287                     0                    1                   0   
+
+     bottom-middle-square  bottom-right-square  
+0                       0                    1  
+1                      -1                    0  
+2                       1                    0  
+3                       0                    0  
+4                       1                    0  
+..                    ...                  ...  
+283                     1                   -1  
+284                     1                    1  
+285                     1                    0  
+286                     1                    1  
+287                    -1                    0  
+
+[288 rows x 9 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>menyimpan dataset yang telah di encoding ke csv dan pickle</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="c1"># Menyimpan DataFrame data train dan data test yang sudah diencode ke file CSV</span>
+<span class="n">encoded_df_train</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;encoded_data_train.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">encoded_df_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;encoded_data_test.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Menyimpan data train yang sudah diencode ke dalam file pickle</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;encoded_data_train.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">encoded_df_train</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># Menyimpan data test yang sudah diencode ke dalam file pickle</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;encoded_data_test.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">encoded_df_test</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># print(&quot;Data yang sudah diencoding telah disimpan ke CSV&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membaca data train yang sudah diencode dari file pickle</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;encoded_data_train.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">loaded_encoded_df_train</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># Membaca data test yang sudah diencode dari file pickle</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;encoded_data_test.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">loaded_encoded_df_test</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="k-nn">
+<h1>K-NN<a class="headerlink" href="#k-nn" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membangun model K-NN</span>
+<span class="c1"># Hitung akurasi KNN dari k = 1 hingga 30</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">loaded_encoded_df_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">loaded_encoded_df_test</span><span class="p">)</span>
+    <span class="n">acc</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="n">best_accuracy</span> <span class="o">=</span> <span class="n">acc</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">best_k</span> <span class="o">=</span> <span class="n">acc</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Akurasi KNN terbaik adalah&#39;</span><span class="p">,</span> <span class="n">best_accuracy</span><span class="p">,</span> <span class="s1">&#39;dengan nilai k =&#39;</span><span class="p">,</span> <span class="n">best_k</span><span class="p">)</span>
+
+<span class="n">results_knn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Actual Label&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;Prediksi&#39;</span><span class="p">:</span> <span class="n">y_pred</span><span class="p">})</span>
+<span class="n">results_knn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi KNN terbaik adalah 0.8472222222222222 dengan nilai k = 5
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-de2f891c-49b3-4618-a196-dcf23e5e5214" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Actual Label</th>
+      <th>Prediksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>836</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>477</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>891</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>855</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>796</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>634</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+  </tbody>
+</table>
+<p>288 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-de2f891c-49b3-4618-a196-dcf23e5e5214')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-de2f891c-49b3-4618-a196-dcf23e5e5214 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-de2f891c-49b3-4618-a196-dcf23e5e5214');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-16e61eb6-42e7-47ef-b59c-78535abfd572">
+  <button class="colab-df-quickchart" onclick="quickchart('df-16e61eb6-42e7-47ef-b59c-78535abfd572')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-16e61eb6-42e7-47ef-b59c-78535abfd572 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="naive-bayes">
+<h1>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inisialisasi model Naive Bayes Multinomial</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">loaded_encoded_df_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Lakukan prediksi pada data uji</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">loaded_encoded_df_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Akurasi: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">results_nb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Actual Label&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;Prediksi&#39;</span><span class="p">:</span> <span class="n">y_pred</span><span class="p">})</span>
+<span class="n">results_nb</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.75
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-f0b8c088-0438-4974-800d-1ba45aefb82b" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Actual Label</th>
+      <th>Prediksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>836</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>477</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>891</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>855</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>796</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>634</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+  </tbody>
+</table>
+<p>288 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-f0b8c088-0438-4974-800d-1ba45aefb82b')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-f0b8c088-0438-4974-800d-1ba45aefb82b button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-f0b8c088-0438-4974-800d-1ba45aefb82b');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-858cdca0-9910-4616-a8cc-c24f4952eb53">
+  <button class="colab-df-quickchart" onclick="quickchart('df-858cdca0-9910-4616-a8cc-c24f4952eb53')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-858cdca0-9910-4616-a8cc-c24f4952eb53 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
+<h1>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inisialisasi model Logistic Regression</span>
+<span class="n">logreg_model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="c1"># Melatih model menggunakan data train yang sudah diencode</span>
+<span class="n">logreg_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">loaded_encoded_df_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Membuat prediksi menggunakan data test yang sudah diencode</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logreg_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">loaded_encoded_df_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">classification_rep</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">results_lr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Actual Label&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;Prediksi&#39;</span><span class="p">:</span> <span class="n">y_pred</span><span class="p">})</span>
+<span class="n">results_lr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.6909722222222222
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-7befcd31-9a32-4868-9d9d-09ce8424c072" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Actual Label</th>
+      <th>Prediksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>836</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>477</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>891</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>855</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>796</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>634</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>negative</td>
+      <td>positive</td>
+    </tr>
+  </tbody>
+</table>
+<p>288 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-7befcd31-9a32-4868-9d9d-09ce8424c072')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-7befcd31-9a32-4868-9d9d-09ce8424c072 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-7befcd31-9a32-4868-9d9d-09ce8424c072');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-82c228d4-1f42-405a-b4c5-5e6316e20632">
+  <button class="colab-df-quickchart" onclick="quickchart('df-82c228d4-1f42-405a-b4c5-5e6316e20632')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-82c228d4-1f42-405a-b4c5-5e6316e20632 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="decision-tree">
+<h1>Decision Tree<a class="headerlink" href="#decision-tree" title="Permalink to this heading">#</a></h1>
+<p>Decision tree adalah model prediktif dalam analisis data yang menggunakan struktur pohon untuk menentukan keputusan . Decision tree sering digunakan dalam klasifikasi dan regresi. Decision tree dengan teknik regresi yang paling terkenal yaitu CART (Classification and Regression Tree) yang diperkenalkan oleh Professor Breimann.</p>
+<p>Ada beberapa tahapan yang harus dilakukan untuk membuat sebuah pohon keputusan, yaitu:</p>
+<ol class="arabic simple">
+<li><p>Menyiapkan data training yang sudah dikelompokkan ke dalam kelas-kelas tertentu.</p></li>
+<li><p>Menentukan akar dari pohon keputusan.</p></li>
+</ol>
+<blockquote>
+<div><p>Akar akan diambil dari atribut yang terpilih, dengan cara menghitung nilai gain dari masing-masing atribut, nilai gain yang paling tinggi yang akan menjadi akar pertama. Tapi, sebelum menghitung nilai gain kita harus menghitung nilai entropynya terlebih dahulu (note : atribut = kolom.) Untuk menghitungnya dapat digunakan rumus berikut:</p>
+</div></blockquote>
+<p><img alt="image_2023-11-19_232207582.png" src="data:image/png;base64,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OOByuRYsWLBlyxadTocIWrRoUVtb2/vvv/9f//VfH3zwQVlZ2f3338+FjA4NDTkcjsjISDAtTffmKxSK++67LxwO19TUPPfccwqFIiIiQqPRbN68edmyZUuWLOEMaqDinTp1yhRjMhqN//d///fWm28FQ0Hw9C9fvry8vJyLwsHjfiFwJUdERCQmJobDYTAmLliwgNN9OL2Mpum8vDy9Xt/b2/vJJ58UFBRwvYoxlsvlK1asMBqNg4ODTz31lMFg8Pl8Wq3WZDL9+Mc/3rhxI1gJpjMq9/b2er3epKQkCKjkP7LJD3HmR8z/9VOT/9UmtpuBS+2wWq1///vfT506FR8f/+ijj0ZHR8953jEfmOfgOXZ1dVmtVsgOfOqppyBXymg0/vjHP7777rtzcnJYXpmikpKS8vLyN95444c//GFxcXFZWVlxcTG/YzHPqQU6l0QiEYlEkPE2YcrJysq67777jhw58h//8R8lJSVLly5dumQpQshgMDz44INyufzs2bM7d+6UyWQqlUqn033961/fsGEDVxuFEBIMBhFCer1+0aJFa9asOXny5JNPPpmZmblgwYK77767paUFHLsmkykcDsM7y38Q58+dP3jwoMFg2Lp1q0qlwghPWfQBKoaBfSkjI0OlUj366KNut1sikeh0uscee2zTpk2w8iMsYViGZdmSkpITJ06cPXv2N7/5TVlZGcwoU4raG+MWT6oYMQxjijFt2rippKRkwtgFsUII0ev1BQUFnCsDXvX8/PynnnrKaDSCuQFOkclkCxcufPbZZx0OR0xMTHp6enJyMnRHYmLi/fffn5GRYbFYoqKiFixYEB8fz9kgDAbDtm3bli9fnpeXxy/eNQGJRJKbmyuVShcsWGCxWCBRHHL+wXHMeXVDoZDNZuvv769YVVG5tlKv11uGLSxh9Xp9RkZGRkZGVFQUO14hERHEld4bW787nQihDRs2VFZWmkymyX5DiqKys7OTk5OvXLnyySefPPzww2hcUILReteuXTabzW63j46OQkAfJPllZGRAFNhkAzwaF161tbWgIIMo/EyV8BqNMtxhN2/EgStwcTmhUOidd945ceKEwWDYsGFDRUWFUqmcFVPRdV1khoM5B4XL5bJarQihpUuXLl++fHh4OBAIyOXy2NjYnJycpKQkftwPmHq+8pWvFBQUYIxTUlLy8/MnbOkH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" /></p>
+<p>Keterangan:</p>
+<p>S = himpunan kasus</p>
+<p>n = jumlah partisi S</p>
+<p>pi = proporsi Si terhadap S</p>
+<ol class="arabic simple" start="3">
+<li><p>Kemudian, hitung nilai gain menggunakan rumus:</p></li>
+</ol>
+<p><img alt="image_2023-11-19_232312723.png" src="data:image/png;base64,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" /></p>
+<p>Keterangan:</p>
+<p>S = himpunan kasus</p>
+<p>A = fitur</p>
+<p>n = jumlah partisi atribut A</p>
+<p>|Si| = proporsi Si terhadap S</p>
+<p>|S| = jumlah kasus dalam S</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># Membangun model Decision Tree</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">loaded_encoded_df_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">loaded_encoded_df_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Akurasi: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="n">results_compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Actual Label&#39;</span><span class="p">:</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;Prediksi&#39;</span><span class="p">:</span> <span class="n">y_pred</span><span class="p">})</span>
+<span class="n">results_compare</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.92
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-d4fe4af0-2445-4809-b0e3-b8f4f4bce49c" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Actual Label</th>
+      <th>Prediksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>836</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>477</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>891</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>855</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>796</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>634</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+    <tr>
+      <th>405</th>
+      <td>positive</td>
+      <td>positive</td>
+    </tr>
+    <tr>
+      <th>741</th>
+      <td>negative</td>
+      <td>negative</td>
+    </tr>
+  </tbody>
+</table>
+<p>288 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-d4fe4af0-2445-4809-b0e3-b8f4f4bce49c')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-d4fe4af0-2445-4809-b0e3-b8f4f4bce49c button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-d4fe4af0-2445-4809-b0e3-b8f4f4bce49c');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-aa5675d8-6ddc-41d1-997d-81e95fcdd826">
+  <button class="colab-df-quickchart" onclick="quickchart('df-aa5675d8-6ddc-41d1-997d-81e95fcdd826')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-aa5675d8-6ddc-41d1-997d-81e95fcdd826 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="model-dt">
+<h1>Model DT<a class="headerlink" href="#model-dt" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membangun model Decision Tree</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">loaded_encoded_df_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># dt.fit(loaded_encoded_df_train.drop(&#39;Class&#39;, axis=1), loaded_encoded_df_train[&#39;Class&#39;])</span>
+
+<span class="c1"># Input data untuk prediksi</span>
+<span class="n">user_inputs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">loaded_encoded_df_train</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Masukkan nilai untuk &#39;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">&#39;: &quot;</span><span class="p">)</span>
+    <span class="n">user_inputs</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">char_to_num</span><span class="p">[</span><span class="n">user_input</span><span class="p">]</span>
+
+<span class="c1"># Membuat DataFrame dari input pengguna</span>
+<span class="n">new_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">user_inputs</span><span class="p">])</span>
+
+<span class="c1"># Melakukan prediksi CLASS untuk data baru menggunakan model yang dimuat</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span>
+
+<span class="c1"># Menampilkan hasil prediksi</span>
+<span class="n">predicted_class</span> <span class="o">=</span> <span class="n">prediction</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Menggunakan indeks 0 karena kita hanya memprediksi satu data</span>
+
+<span class="c1"># Menampilkan hasil prediksi</span>
+<span class="k">if</span> <span class="n">predicted_class</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil Prediksi: Positif (Menang)&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil Prediksi: Negatif (Kalah)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Masukkan nilai untuk &#39;top-left-square&#39;: x
+Masukkan nilai untuk &#39;top-middle-square&#39;: o
+Masukkan nilai untuk &#39;top-right-square&#39;: x
+Masukkan nilai untuk &#39;middle-left-square&#39;: x
+Masukkan nilai untuk &#39;middle-middle-square&#39;: b
+Masukkan nilai untuk &#39;middle-right-square&#39;: x
+Masukkan nilai untuk &#39;bottom-left-square&#39;: x
+Masukkan nilai untuk &#39;bottom-middle-square&#39;: o
+Masukkan nilai untuk &#39;bottom-right-square&#39;: b
+Hasil Prediksi: Positif (Menang)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to your Jupyter Book</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Tic-Tac-Toe EndGame (Memprediksi apakah permainan akan dimenangkan oleh pemain ‘x’ atau tidak)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bussiness-understanding">Bussiness Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">Data Understanding</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fitur"><strong>Penjelasan Fitur</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing">Pre-Processing</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nn">K-NN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic Regression</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree">Decision Tree</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#model-dt">Model DT</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
